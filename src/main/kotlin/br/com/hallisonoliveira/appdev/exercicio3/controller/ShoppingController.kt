@@ -2,8 +2,10 @@ package br.com.hallisonoliveira.appdev.exercicio3.controller
 
 import br.com.hallisonoliveira.appdev.exercicio3.model.Shopping
 import br.com.hallisonoliveira.appdev.exercicio3.service.ShoppingService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.lang.Exception
 
 @RestController
 @RequestMapping("/api")
@@ -27,8 +29,14 @@ class ShoppingController(
     fun getById(
             @PathVariable id: String
     ) : ResponseEntity<Shopping> {
-        val response = service.getById(id)
-        return ResponseEntity.ok(response)
+        try {
+            val response = service.getById(id)
+            return ResponseEntity.ok(response)
+        } catch (noSuchElement: NoSuchElementException) {
+            return ResponseEntity(HttpStatus.NO_CONTENT)
+        } catch (exception: Exception) {
+            return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     @PatchMapping("/shopping")
