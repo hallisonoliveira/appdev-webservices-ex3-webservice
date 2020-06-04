@@ -1,6 +1,8 @@
 package br.com.hallisonoliveira.appdev.exercicio3.service
 
 import br.com.hallisonoliveira.appdev.exercicio3.model.Shopping
+import br.com.hallisonoliveira.appdev.exercicio3.model.ShoppingRemote
+import br.com.hallisonoliveira.appdev.exercicio3.model.toDomain
 import br.com.hallisonoliveira.appdev.exercicio3.repository.ShoppingRepository
 import org.springframework.stereotype.Service
 
@@ -9,8 +11,8 @@ class ShoppingService(
     private val repository: ShoppingRepository
 ) {
 
-    fun save(shopping: Shopping) {
-        repository.save(shopping)
+    fun save(shopping: Shopping) : Shopping{
+        return repository.save(shopping)
     }
 
     fun getById(id: String) : Shopping = repository.findById(id).get()
@@ -21,7 +23,9 @@ class ShoppingService(
         repository.deleteById(id)
     }
 
-    fun add(shopping: Shopping) : Shopping {
-        return repository.save(shopping)
+    fun add(shopping: ShoppingRemote) {
+        repository.save(
+                shopping.copy(id = System.currentTimeMillis().toString()
+            ).toDomain())
     }
 }

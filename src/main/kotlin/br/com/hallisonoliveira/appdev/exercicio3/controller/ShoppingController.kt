@@ -1,6 +1,7 @@
 package br.com.hallisonoliveira.appdev.exercicio3.controller
 
 import br.com.hallisonoliveira.appdev.exercicio3.model.Shopping
+import br.com.hallisonoliveira.appdev.exercicio3.model.ShoppingRemote
 import br.com.hallisonoliveira.appdev.exercicio3.service.ShoppingService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,7 +22,7 @@ class ShoppingController(
 
     @PostMapping("/shopping")
     fun add(
-        @RequestBody shopping: Shopping) {
+        @RequestBody shopping: ShoppingRemote) {
         service.add(shopping)
     }
 
@@ -43,14 +44,14 @@ class ShoppingController(
     fun patch(
         @RequestBody shopping: Shopping
     ) {
-        service.add(shopping)
+        service.save(shopping)
     }
 
     @PutMapping("/shopping")
     fun put(
         @RequestBody shopping: Shopping
     ) : ResponseEntity<Shopping> {
-        val shopping = service.add(shopping)
+        val shopping = service.save(shopping)
         return ResponseEntity.ok(shopping)
     }
 
